@@ -20,7 +20,7 @@ const getSkills = asyncHandler(async (req, res) => {
   }
 
   if (category) {
-    filter.category = category;
+    filter.category = String(category);
   }
 
   const skills = await Skill.find(filter).populate('instructor', 'name email profilePicture');

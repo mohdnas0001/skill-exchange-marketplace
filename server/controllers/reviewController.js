@@ -12,7 +12,7 @@ const createReview = asyncHandler(async (req, res) => {
   const { skill: skillId, rating, comment } = req.body;
 
   // Check for duplicate review
-  const existingReview = await Review.findOne({ skill: skillId, reviewer: req.user._id });
+  const existingReview = await Review.findOne({ skill: String(skillId), reviewer: req.user._id });
   if (existingReview) {
     res.status(400);
     throw new Error('You have already reviewed this skill');
@@ -20,7 +20,7 @@ const createReview = asyncHandler(async (req, res) => {
 
   // Require a completed booking as learner
   const completedBooking = await Booking.findOne({
-    skill: skillId,
+    skill: String(skillId),
     learner: req.user._id,
     status: 'completed',
   });
@@ -30,7 +30,7 @@ const createReview = asyncHandler(async (req, res) => {
     throw new Error('You must have a completed booking for this skill to leave a review');
   }
 
-  const skill = await Skill.findById(skillId);
+  const skill = await Skill.findById(String(skillId));
   if (!skill) {
     res.status(404);
     throw new Error('Skill not found');

@@ -10,7 +10,7 @@ const asyncHandler = require('../utils/asyncHandler');
 const createBooking = asyncHandler(async (req, res) => {
   const { skill: skillId, date, message } = req.body;
 
-  const skill = await Skill.findById(skillId);
+  const skill = await Skill.findById(String(skillId));
   if (!skill) {
     res.status(404);
     throw new Error('Skill not found');
