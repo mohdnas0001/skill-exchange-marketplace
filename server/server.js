@@ -22,7 +22,9 @@ const app = express();
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet());
+// Allow Swagger UI assets (inline scripts/styles) only on the docs route
+app.use('/api-docs', helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
