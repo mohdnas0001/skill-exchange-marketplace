@@ -23,15 +23,24 @@ const app = express();
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use(helmet());
-// Allow Swagger UI assets (inline scripts/styles) only on the docs route
-app.use('/api-docs', helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Swagger UI — override CSP for the docs route so Swagger assets load correctly
+app.use(
+  '/api-docs',
+  (req, res, next) => {
+    res.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self';"
+    );
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
