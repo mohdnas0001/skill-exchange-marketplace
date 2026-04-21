@@ -172,6 +172,42 @@ npm run seed
 
 ---
 
+## 📖 API Documentation (Swagger UI)
+
+Interactive API documentation is available via Swagger UI once the backend server is running.
+
+### Access the docs
+
+| URL | Description |
+|---|---|
+| `http://localhost:5000/api-docs` | Swagger UI — interactive documentation |
+| `http://localhost:5000/docs` | Redirects to `/api-docs` |
+| `http://localhost:5000/api-docs.json` | Raw OpenAPI 3.0 JSON spec |
+
+### Screenshot
+
+> _Start the backend server and open `http://localhost:5000/api-docs` in your browser._
+
+### Using "Try it out"
+
+1. Start the backend: `cd server && npm run dev`
+2. Open **http://localhost:5000/api-docs** in your browser
+3. Expand any endpoint section (e.g. **Auth → POST /api/auth/login**)
+4. Click **"Try it out"**, fill in the request body, then click **"Execute"**
+5. The response will appear below with the status code and body
+
+### Authorizing with JWT
+
+Protected endpoints require a Bearer token. After logging in via `POST /api/auth/login`:
+
+1. Copy the `token` value from the response
+2. Click the **"Authorize"** button (🔓) at the top of the Swagger UI page
+3. In the **bearerAuth** field enter your token (without the `Bearer ` prefix)
+4. Click **"Authorize"** then **"Close"**
+5. All subsequent requests will include your JWT automatically
+
+---
+
 ## 📸 Screenshots
 
 > Screenshots coming soon
